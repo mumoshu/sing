@@ -9,7 +9,7 @@ eval "$(sing init -)"
 ```
 
 ```
-export PATH="/Users/mumoshu/.sing/shims:${PATH}"
+export PATH="$(pwd)/.sing/shims:/Users/mumoshu/.sing/shims:${PATH}"
 export SING_SHELL=bash
 sing rehash 2>/dev/null
 sing() {
@@ -58,6 +58,20 @@ Installing and immediately running an executable command:
 ```
 # Intalls and runs it
 sing run github.com/rogpeppe/gohack v1.0.0 -- --help
+```
+
+```
+cat <<EOF >Singfile
+dependencies:
+- name: github.com/rogpeppe/gohack
+  version: v1.0.0
+EOF
+
+# installs all the dependencies locally under .sing/versions/v1.0.0/bin/gohack and rehash shims at .sing/shims/gohack
+sing run install
+
+# reads the Singfile to runs the gohack v1.0.0 installed locally
+sing run -- gohack --help
 ```
 
 # Acknowledgements
